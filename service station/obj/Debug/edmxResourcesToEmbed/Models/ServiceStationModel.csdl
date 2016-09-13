@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ServiceStationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="IdCar" />
+    </Key>
+    <Property Name="IdCar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdClient" Type="Int32" Nullable="false" />
+    <Property Name="VIN" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Make" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Year" Type="String" Nullable="false" MaxLength="5" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="ClientCard" Relationship="Self.FK_Car_ClientCard" FromRole="Car" ToRole="ClientCard" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_Order_Car" FromRole="Car" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="ClientCard">
+    <Key>
+      <PropertyRef Name="IdClient" />
+    </Key>
+    <Property Name="IdClient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="First_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Cars" Relationship="Self.FK_Car_ClientCard" FromRole="ClientCard" ToRole="Car" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="IdCar" />
+    </Key>
+    <Property Name="IdCar" Type="Int32" Nullable="false" />
+    <Property Name="OrderAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Car" Relationship="Self.FK_Order_Car" FromRole="Order" ToRole="Car" />
+  </EntityType>
+  <Association Name="FK_Car_ClientCard">
+    <End Role="ClientCard" Type="Self.ClientCard" Multiplicity="1" />
+    <End Role="Car" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClientCard">
+        <PropertyRef Name="IdClient" />
+      </Principal>
+      <Dependent Role="Car">
+        <PropertyRef Name="IdClient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Car">
+    <End Role="Car" Type="Self.Car" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="IdCar" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="IdCar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ServiceStationEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cars" EntityType="Self.Car" />
+    <EntitySet Name="ClientCards" EntityType="Self.ClientCard" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <AssociationSet Name="FK_Car_ClientCard" Association="Self.FK_Car_ClientCard">
+      <End Role="ClientCard" EntitySet="ClientCards" />
+      <End Role="Car" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Car" Association="Self.FK_Order_Car">
+      <End Role="Car" EntitySet="Cars" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

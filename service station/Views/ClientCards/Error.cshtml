@@ -1,0 +1,14 @@
+﻿@model service_station.Models.ClientCard
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">Deletion is only possible if there are no cars related to the client</h2>
+<div class="form-actions no-color">
+
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

@@ -1,0 +1,63 @@
+﻿@model service_station.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Car.Model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car.Model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Car.VIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car.VIN)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Car.ClientCard.Last_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car.ClientCard.Last_name)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdCar }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ServiceStationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="IdCar" />
+    </Key>
+    <Property Name="IdCar" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdClient" Type="int" Nullable="false" />
+    <Property Name="VIN" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Make" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Year" Type="nvarchar" MaxLength="5" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ClientCard">
+    <Key>
+      <PropertyRef Name="IdClient" />
+    </Key>
+    <Property Name="IdClient" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Last name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="First name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Date of birth" Type="date" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="IdCar" />
+    </Key>
+    <Property Name="IdCar" Type="int" Nullable="false" />
+    <Property Name="OrderAmount" Type="money" Nullable="false" />
+    <Property Name="OrderStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Car_ClientCard">
+    <End Role="ClientCard" Type="Self.ClientCard" Multiplicity="1" />
+    <End Role="Car" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClientCard">
+        <PropertyRef Name="IdClient" />
+      </Principal>
+      <Dependent Role="Car">
+        <PropertyRef Name="IdClient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Car">
+    <End Role="Car" Type="Self.Car" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="IdCar" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="IdCar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ServiceStationModelStoreContainer">
+    <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClientCard" EntityType="Self.ClientCard" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Car_ClientCard" Association="Self.FK_Car_ClientCard">
+      <End Role="ClientCard" EntitySet="ClientCard" />
+      <End Role="Car" EntitySet="Car" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Car" Association="Self.FK_Order_Car">
+      <End Role="Car" EntitySet="Car" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
